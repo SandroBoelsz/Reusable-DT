@@ -4,7 +4,7 @@
 # export R_PATH="$1"
 export DATA_PATH="$1" 
 # export SCRIPT_PATH="$1"
-export INPUT_DIR="/input/${DATA_PATH}"
+export INPUT_DIR="${DATA_PATH}"
 export OUTPUT_DIR="/output"
 export MAP="map.tif"
 export LOOKUP_TABLE="lookup_table.csv"

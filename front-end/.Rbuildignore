@@ -1,0 +1,17 @@
+^renv$
+^renv\.lock$
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+dev_history.R
+^dev$
+$run_dev.*
+^LICENSE\.md$
+^app\.R$
+^rsconnect$
+^deploy$
+^Dockerfile$
+^\.dockerignore$
+.renvignore
+R/test.R
+d:\Repositories\School\Thesis\biodt-shiny\.lintr
