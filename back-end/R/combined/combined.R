@@ -462,14 +462,14 @@ prepare_input <- function() {
     rbind(
       data.frame(
         Parameter = c("INPUT_FILE", "WeatherFile", "random-seed"),
-        Value = c(paste0("\"", input_dir, "/locations", "/input1.txt\""),
-                  paste0("\"", input_dir, "/locations", "/weather1.txt\""),
+        Value = c(paste0("\"", "/mnt/d/Repositories/School/Thesis/Reusable-DT/data/input", "/locations", "/input1.txt\""),
+                  paste0("\"", "/mnt/d/Repositories/School/Thesis/Reusable-DT/data/input", "/locations", "/weather1.txt\""),
                   sample(1:100000, 1))
       )
   )
     
   parameters_list <- parameters$Value |>
-    map(~.x)
+    map(~list(.x))
   names(parameters_list) <- parameters$Parameter
     
   # Load simulation data ----
@@ -592,8 +592,7 @@ run_simulation <- function(
     input_list,
     xml_path = NULL,
     memory = 2048,
-    threads = 1,
-    error_log_path = "error_log.txt"
+    threads = 1
 ) {
   if (is.null(xml_path)) {
     xml_path <- paste0(tempfile(pattern = "netlogo_xml_"), ".xml")
@@ -626,8 +625,7 @@ run_simulation <- function(
     '--setup-file', shQuote(xml_path),
     '--experiment Exp1',
     '--table', shQuote(output_path),
-    '--threads', threads,
-    '2>> /dev/null'
+    '--threads', threads
   )
 
   print(system_cmd)
@@ -692,7 +690,7 @@ input_patches <-
                bee_location = bee_location,
                lookup_table = lookup_table,
                polygon_size = 200000,
-               buffer_size = locations_output$buffer_size)
+               buffer_size = locations_output$buffer_size)[[1]]
 
 # allows to discriminate nectar and pollen resources from grassland during summer (patchtype = "Season") and the rest of the year (patchtype = "GrasslandRest")
 input_patches_modified <- modify_input_file(input_patches, lookup_table)
@@ -727,14 +725,13 @@ write.table(
 )
 
 inputs <- list()
-inputs$netlogo_version <- "6.4.0"
-inputs$netlogo_jar_path <- "/mnt/d/SchoolProjects/UvA/Master/Thesis/NetLogo/app/netlogo-6.4.0.jar"
+inputs$netlogo_jar_path <- "/mnt/d/Repositories/School/Thesis/Reusable-DT/NetLogo6.3.0/lib/app/netlogo-6.3.0.jar"
 Sys.setenv(JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64")
 inputs$model_path <- "/mnt/d/Repositories/School/Thesis/Reusable-DT/data/input/Beehave_BeeMapp2015_Netlogo6version_PolygonAggregation.nlogo"
 user_params <- args$netlogo_output
 
-user_params$constants$WeatherFile[[1]] <- gsub('^"|"$', '', paste0(locations_output$location_path, "/weather", locations_output$id, ".txt"))
-user_params$constants$INPUT_FILE[[1]] <- gsub('^"|"$', '', paste0(locations_output$location_path, "/input", locations_output$id, ".txt"))
+#user_params$constants$WeatherFile[[1]] <- gsub('^"|"$', '', paste0(locations_output$location_path, "/weather", locations_output$id, ".txt"))
+#user_params$constants$INPUT_FILE[[1]] <- gsub('^"|"$', '', paste0(locations_output$location_path, "/input", locations_output$id, ".txt"))
 
 if (!is.null(user_params$variables$HoneyHarvesting)) {
   user_params$variables$HoneyHarvesting <- ifelse(user_params$variables$HoneyHarvesting == 0, "false", "true")
@@ -748,20 +745,27 @@ if (!is.null(user_params$variables$DroneBroodRemoval)) {
 
 # Rewrite default parameters by user defined ----
 # user_params$variables <- map(user_params$variables, ~list(values = .x |> unlist() |> unname()))
-input_file <- user_params$constants$WeatherFile[[1]]
-weather_file <- user_params$constants$INPUT_FILE[[1]]
+input_file <- gsub('^.|.$', '', user_params$variables$INPUT_FILE)
+weather_file <- gsub(
+  '^.|.$', '', user_params$variables$WeatherFile
+)
 
 stopifnot(file.exists(input_file))
 stopifnot(file.exists(weather_file))
 # print("passed_file_check")
 
 # Load weather data ----
-weather <- read_file(weather_file) |>
-  str_split(" ",
-            simplify = TRUE
-  ) |>
-  as.integer() |>
-  na.omit()
+# Read the content of the weather file
+weather_content <- read_file(weather_file)
+
+# Remove the square brackets and split the content into a vector of substrings based on spaces
+weather_values <- str_split(gsub("\\[|\\]", "", weather_content), " ", simplify = TRUE)
+
+# Convert the substrings to numeric, suppressing warnings about NAs
+weather <- suppressWarnings(as.numeric(weather_values))
+
+# Remove any NA values
+weather <- na.omit(weather)
 
 weather <- rep(weather, 10)
 # Run experiment ----
@@ -772,17 +776,17 @@ results <- run_simulation(
   user_params
 )
 
-start_date <- as.Date(user_params$start_day[[1]])
+start_date <- user_params$start_day[[1]] |>
+  as.Date()
 
 results <- results |>
-  mutate(
-    weather = weather[1:nrow(results)],
-    date = seq(from = start_date, by = "day", length.out = nrow(results))
-  )
+  mutate(weather = weather[1:nrow(results)],
+         date = seq(from = start_date,
+                    to = start_date + user_params$sim_days[[1]],
+                    by = "day"))
 
 # Store results ----
 write.table(results,
             file = user_params$outpath,
             sep = ",",
             row.names = FALSE)
-

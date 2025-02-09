@@ -101,3 +101,4 @@ docker-compose.yml
 Dockerfile_old
 .vscode/settings.json
 .rhino/node_modules
+NetLogo6.3.0/
