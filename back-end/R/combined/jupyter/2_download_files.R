@@ -1,4 +1,4 @@
-# Download files from S3
+# 1 Download files from S3
 # ---
 # NaaVRE:
 #  cell:
@@ -20,6 +20,12 @@
 #    - param_input_dir:
 #       type: String
 #       default_value: "/tmp/data/input/"
+#    - param_output_dir:
+#       type: String
+#       default_value: "/tmp/data/output/"
+#    - param_buffer:
+#       type: Integer
+#       default_value: 3000
 #    - param_map:
 #       type: String
 #       default_value: "map.tif"
@@ -41,7 +47,7 @@
 #    - param_model:
 #       type: String
 #       default_value: "Beehave_BeeMapp2015_Netlogo6version_PolygonAggregation.nlogo"
-#   secrets: 
+#   secrets:
 #    - secret_s3_access_id:
 #       type: String
 #    - secret_s3_secret_key:
