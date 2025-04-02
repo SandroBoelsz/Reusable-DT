@@ -1,0 +1,91 @@
+Config
+---
+NaaVRE:
+  cell:
+    confs:
+      - conf_work_dir:
+          assignation: "conf_work_dir = ’/tmp/data’"
+
+    dependencies:
+      - name: jsonlite
+      - name: readr
+      - name: purrr
+      - name: optparse
+      - name: terra
+      - name: sf
+      - name: dplyr
+      - name: stats
+      - name: stringr
+      - name: rdwd
+      - name: lubridate
+      - name: bit
+      - name: bit64
+      - name: tidyselect
+      - name: progress
+      - name: cpp11
+      - name: clipr
+      - name: hms
+      - name: vroom
+      - name: tzdb
+      - name: raster
+      - name: Rcpp
+      - name: proxy
+      - name: e1071
+      - name: wk
+      - name: classInt
+      - name: DBI
+      - name: s2
+      - name: units
+      - name: generics
+      - name: stringi
+      - name: abind
+      - name: berryFunctions
+      - name: pbapply
+      - name: timechange
+...
+
+# Config
+# ---
+# NaaVRE:
+#   cell:
+#     confs:
+#       - conf_work_dir:
+#           assignation: "conf_work_dir = ’/tmp/data’"
+
+#     dependencies:
+#       - name: jsonlite
+#       - name: readr
+#       - name: purrr
+#       - name: optparse
+#       - name: terra
+#       - name: sf
+#       - name: dplyr
+#       - name: stats
+#       - name: stringr
+#       - name: rdwd
+#       - name: lubridate
+#       - name: bit
+#       - name: bit64
+#       - name: tidyselect
+#       - name: progress
+#       - name: cpp11
+#       - name: clipr
+#       - name: hms
+#       - name: vroom
+#       - name: tzdb
+#       - name: raster
+#       - name: Rcpp
+#       - name: proxy
+#       - name: e1071
+#       - name: wk
+#       - name: classInt
+#       - name: DBI
+#       - name: s2
+#       - name: units
+#       - name: generics
+#       - name: stringi
+#       - name: abind
+#       - name: berryFunctions
+#       - name: pbapply
+#       - name: timechange
+# ...

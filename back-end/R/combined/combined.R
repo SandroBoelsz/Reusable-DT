@@ -114,47 +114,47 @@ SplitPolygonsEqual <- function(polygon, polygon_size, density = 1000, RefCRS) {
   return(polyFinal)
 }
 
-# Function to create spatial variability in flowering of grassland polygons
-SpatialVaryingInput <- function(input, monthlyProb) {
-  # alter flowering time of grassland in the BeeHave input-file
-  # so that each grassland Patch is only flowering one month
-  # "monthlyProb" indicates the probability of flowering per month
-  # with numbers between 0 and 1 giving the probability of flowering
-  # of each month (length = 12)
+# # Function to create spatial variability in flowering of grassland polygons
+# SpatialVaryingInput <- function(input, monthlyProb) {
+#   # alter flowering time of grassland in the BeeHave input-file
+#   # so that each grassland Patch is only flowering one month
+#   # "monthlyProb" indicates the probability of flowering per month
+#   # with numbers between 0 and 1 giving the probability of flowering
+#   # of each month (length = 12)
 
-  # extract Patch IDs of Grassland
-  grasslandIDs <- input |>
-    filter(PatchType == "Grassland") |>
-    select("id") |>
-    unique()
+#   # extract Patch IDs of Grassland
+#   grasslandIDs <- input |>
+#     filter(PatchType == "Grassland") |>
+#     select("id") |>
+#     unique()
 
-  # generate random numbers indicating at which months Patch is flowering
-  # with given probabilities per month
-  FloweringLookup <-
-    data.frame(grasslandIDs,
-      flowerMonth = sample(1:12, length(grasslandIDs),
-        prob = monthlyProb,
-        replace = TRUE
-      )
-    )
+#   # generate random numbers indicating at which months Patch is flowering
+#   # with given probabilities per month
+#   FloweringLookup <-
+#     data.frame(grasslandIDs,
+#       flowerMonth = sample(1:12, length(grasslandIDs),
+#         prob = monthlyProb,
+#         replace = TRUE
+#       )
+#     )
 
-  # join month of flowering to input file and calculate month from date
-  newInput <- left_join(input, FloweringLookup,
-    by = "id"
-  ) |>
-    mutate(month = month(as.Date(day - 1, origin = "2016-01-01")))
+#   # join month of flowering to input file and calculate month from date
+#   newInput <- left_join(input, FloweringLookup,
+#     by = "id"
+#   ) |>
+#     mutate(month = month(as.Date(day - 1, origin = "2016-01-01")))
 
-  #
-  newInput <- newInput |>
-    mutate(flowering = ifelse(flowerMonth == month, TRUE, FALSE)) |>
-    mutate(
-      quantityNectar_l = ifelse(flowering == TRUE, quantityNectar_l, 0),
-      quantityPollen_g = ifelse(flowering == TRUE, quantityPollen_g, 0)
-    ) |>
-    select(-c(month, flowerMonth, flowering))
+#   #
+#   newInput <- newInput |>
+#     mutate(flowering = ifelse(flowerMonth == month, TRUE, FALSE)) |>
+#     mutate(
+#       quantityNectar_l = ifelse(flowering == TRUE, quantityNectar_l, 0),
+#       quantityPollen_g = ifelse(flowering == TRUE, quantityPollen_g, 0)
+#     ) |>
+#     select(-c(month, flowerMonth, flowering))
 
-  return(newInput)
-}
+#   return(newInput)
+# }
 
 #### BeeHave Input-File Generator #####
 # Function to generate Input Files for BEEHAVE-Model
