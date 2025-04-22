@@ -1,11 +1,11 @@
-# Three Create weather resources
+# Three Create weather input
 # ---
 # NaaVRE:
 #  cell:
 #   inputs:
 #    - locations_output: List
 #   outputs:
-#    - input_file: String
+#    - weather_file: String
 #   params:
 #    - param_s3_region:
 #       type: String

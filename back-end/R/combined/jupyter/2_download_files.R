@@ -1,9 +1,9 @@
-# 1 Download files from S3
+# One Download files from S3
 # ---
 # NaaVRE:
 #  cell:
 #   outputs:
-#    - isFileDownloadSuccessful: Integer
+#    - is_file_download_succesful: Integer
 #   params:
 #    - param_s3_region:
 #       type: String
@@ -47,6 +47,9 @@
 #    - param_model:
 #       type: String
 #       default_value: "Beehave_BeeMapp2015_Netlogo6version_PolygonAggregation.nlogo"
+#    - param_netlogo_jar_path:
+#       type: String
+#       default_value: "test"
 #   secrets:
 #    - secret_s3_access_id:
 #       type: String
@@ -93,9 +96,10 @@ download_file <- function(s3_path, local_path, bucket) {
 # Loop through files and download each one
 results <- mapply(download_file, s3_locations, download_locations, param_s3_bucket)
 
-isFileDownloadSuccessful <- as.integer(all(results))
-if (isFileDownloadSuccessful == 1) {
+is_file_download_succesful <- as.integer(all(results))
+if (is_file_download_succesful == 1) {
   message("All files downloaded successfully!")
 } else {
   warning("Some files failed to download.")
+  stop("Some files failed to download.")
 }

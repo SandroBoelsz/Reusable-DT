@@ -2,7 +2,7 @@
 # ---
 # NaaVRE:
 #  cell:
-#   input:
+#   inputs:
 #    - output_file: String
 #   params:
 #    - param_s3_region:

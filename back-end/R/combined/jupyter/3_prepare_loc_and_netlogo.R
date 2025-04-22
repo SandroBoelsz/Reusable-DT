@@ -1,9 +1,9 @@
-# 2 Prepare locations and netlogo input
+# Two Prepare locations and netlogo input
 # ---
 # NaaVRE:
 #  cell:
 #   inputs:
-#    - isFileDownloadSuccessful: Integer
+#    - is_file_download_succesful: Integer
 #   outputs:
 #    - locations_output: List
 #    - netlogo_output: List
@@ -50,6 +50,9 @@
 #    - param_model:
 #       type: String
 #       default_value: "Beehave_BeeMapp2015_Netlogo6version_PolygonAggregation.nlogo"
+#    - param_netlogo_jar_path:
+#       type: String
+#       default_value: "test"
 #   secrets:
 #    - secret_s3_access_id:
 #       type: String
@@ -65,7 +68,7 @@ library(readr)
 library(purrr)
 library(dplyr)
 
-if (!isFileDownloadSuccessful) {
+if (!is_file_download_succesful) {
   stop("File download failed! Stopping workflow.")
 } else {
   message("All files downloaded successfully. Proceeding with input preparation.")
@@ -138,7 +141,7 @@ locations_output <- list(
 netlogo_output <- list(
   outpath = file.path(
     param_output_dir,
-    paste0("output_id", location$id, ".csv")
+    paste0("output.csv")
   ),
   metrics = c(
     "TotalIHbees + TotalForagers",

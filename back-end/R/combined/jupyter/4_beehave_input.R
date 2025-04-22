@@ -1,9 +1,11 @@
-# Convert beehave model input
+# Three Prepare beehave model input
 # ---
 # NaaVRE:
 #  cell:
 #   inputs:
 #    - locations_output: List
+#   outputs:
+#    - input_file: String
 #   params:
 #    - param_s3_region:
 #       type: String
@@ -47,6 +49,9 @@
 #    - param_model:
 #       type: String
 #       default_value: "Beehave_BeeMapp2015_Netlogo6version_PolygonAggregation.nlogo"
+#    - param_netlogo_jar_path:
+#       type: String
+#       default_value: "test"
 #   secrets:
 #    - secret_s3_access_id:
 #       type: String
@@ -332,3 +337,5 @@ write.table(
   sep = " ",
   row.names = FALSE
 )
+
+input_file <- paste0(locations_output$location_path, "/input.txt")
