@@ -1,0 +1,15 @@
+name: netlogo-r
+channels:
+  - conda-forge
+dependencies:
+  - r-renv
+  - r-jsonlite
+  - r-lobstr
+  - r-rlang
+  - r-purrr
+  - r-optparse
+  - r-rcpp
+  - r-rcppeigen
+  - r-ggplot2
+  - git
+  - r-sf

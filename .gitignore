@@ -89,7 +89,7 @@ vignettes/*.pdf
 .Renviron
 # System files
 .DS_Store
-renv
+renv/
 # Data for pDTs
 local_data
 app/data
