@@ -17,7 +17,6 @@ Further repositories used in the project:
 - [BioDT UC Pollinators Container](https://github.com/BioDT/uc-pollinators-container?tab=readme-ov-file)
 - [BioDT UC Pollinators Beehave](https://github.com/BioDT/uc-pollinators-beehave)
 - [BioDT UC Pollinators](https://github.com/BioDT/uc-pollinators)
-- [BioDT FAIR](https://github.com/BioDT/biodt-fair/tree/main)
 - [QCDIS NaaVRE](https://github.com/QCDIS/NaaVRE)
 - [QCDIS NaaVRE Flavors](https://github.com/QCDIS/NaaVRE-flavors)
 - [QCDIS NaaVRE Dev Environment](https://github.com/QCDIS/NaaVRE-dev-environment)

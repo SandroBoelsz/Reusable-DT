@@ -18,5 +18,5 @@ RUN wget https://ccl.northwestern.edu/netlogo/6.3.0/NetLogo-6.3.0-64.tgz && \
     rm NetLogo-6.3.0-64.tgz
 
 ENV NETLOGO_HOME=/opt/netlogo-6.3.0
-ENV NETLOGO_JAR=${NETLOGO_HOME}/app/netlogo-6.3.0.jar
+ENV NETLOGO_JAR=${NETLOGO_HOME}/lib/app/netlogo-6.3.0.jar
 ENV PATH="${NETLOGO_HOME}:${PATH}"
