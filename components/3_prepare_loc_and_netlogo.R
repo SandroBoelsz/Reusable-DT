@@ -61,27 +61,30 @@
 #    - name: dplyr
 # ...
 
-library(readr)
-library(purrr)
-library(dplyr)
+library(readr)   # For reading CSV and delimited files
+library(purrr)   # For functional programming tools (e.g., map)
+library(dplyr)   # For data manipulation
 
+# Check if file download was successful, stop workflow if not
 if (!is_file_download_succesful) {
   stop("File download failed! Stopping workflow.")
 } else {
   message("All files downloaded successfully. Proceeding with input preparation.")
 }
 
+# Construct input file paths based on parameters
 input_tif_path <- file.path(param_input_dir, param_map)
 input_lookup_path <- file.path(param_input_dir, param_lookup_table)
 input_locations_path <- file.path(param_input_dir, param_locations)
 input_parameters_path <- file.path(param_input_dir, param_parameters)
 input_simulation_path <- file.path(param_input_dir, param_simulation)
 
+# Ensure output directory exists
 if (!dir.exists(param_output_dir)) {
   dir.create(param_output_dir)
 }
 
-# Load locations ----
+# Load the first location from the locations file
 location <- 
   read_delim(input_locations_path,
              delim = ",",
@@ -90,9 +93,9 @@ location <-
                lat = "d",
                lon = "d"
   )) |>
-  slice(1)
+  slice(1)  # Only use the first row
 
-# Load parameters ----
+# Load parameters from the parameters file and append NetLogo-specific parameters
 parameters <- 
   read_csv(
     file = input_parameters_path,
@@ -111,11 +114,12 @@ parameters <-
     )
 )
 
+# Convert parameters to a named list for NetLogo input
 parameters_list <- parameters$Value |>
   map(~list(.x))
 names(parameters_list) <- parameters$Parameter
-  
-# Load simulation data ----
+
+# Load simulation data (simulation days and start day)
 simulation_df <- read_csv(
   file = input_simulation_path,
   col_types = list(
@@ -123,6 +127,8 @@ simulation_df <- read_csv(
     start_day = col_character()
   )
 )
+
+# Prepare output list for locations
 locations_output <- list(
   id = location$id,
   lat = location$lat,
@@ -134,7 +140,8 @@ locations_output <- list(
   input_tif_path = input_tif_path,
   nectar_pollen_lookup_path = input_lookup_path
 )
-    
+
+# Prepare output list for NetLogo simulation
 netlogo_output <- list(
   outpath = file.path(
     param_output_dir,
