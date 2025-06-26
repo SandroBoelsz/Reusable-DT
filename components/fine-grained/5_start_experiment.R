@@ -1,4 +1,4 @@
-# Four Start beehave experiments
+# Compoonent 5 Start beehave experiments
 # ---
 # NaaVRE:
 #  cell:
@@ -178,7 +178,7 @@ run_simulation <- function(
     output_path,
     input_list,
     xml_path = NULL,
-    memory = 2048,
+    memory = 1024,
     threads = 1
 ) {
   if (is.null(xml_path)) {
@@ -209,21 +209,22 @@ run_simulation <- function(
   if (netlogo_jar_path == "") {
     stop("Environment variable NETLOGO_JAR is not set.")
   }
-
+  
   system_cmd <- paste(
     'java',
-    paste0('-Xmx', memory, 'm -Dfile.encoding=UTF-8'),
+    '-Dfile.encoding=UTF-8',
     '-classpath', shQuote(netlogo_jar_path),
     'org.nlogo.headless.Main',
     '--model', shQuote(model_path),
     '--setup-file', shQuote(xml_path),
     '--experiment Exp1',
     '--table', shQuote(output_path),
-    '--threads', threads
+    '--threads', threads  
   )
 
   print(system_cmd)
   system(system_cmd)
+
   
   results <- read_csv(
     output_path,

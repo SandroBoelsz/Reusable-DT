@@ -1,4 +1,4 @@
-# Five upload files to S3
+# Component 6 upload files to S3
 # ---
 # NaaVRE:
 #  cell:

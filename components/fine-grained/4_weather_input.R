@@ -1,4 +1,4 @@
-# Three Create weather input
+# Component 4 Create weather input
 # ---
 # NaaVRE:
 #  cell:
@@ -77,9 +77,9 @@ library(lubridate)
 # modifications have been done by Jürgen Groeneveld, Tomas Martinovic, Tuomas Rossi
 # the honeybee pDT has benefited from the work of the honeybee pDT team
 
+
 # Function to create a weatherinput file for the beehave model
 weather_data_input <- function(bee_location,
-                               from_date = "2016-01-01",
                                to_date = "2016-12-31") {
   # transform input coordinates to degrees
   TrachtnetConv <- project(bee_location, "epsg:4326")
@@ -93,7 +93,7 @@ weather_data_input <- function(bee_location,
     res = "daily", var = "kl", per = "historical", mindate = to_date
   ) |>
     # select only stations that started measuring before 2016
-    filter(von_datum < from_date) |>
+    filter(von_datum < "2016-01-01") |>
     # change urls to https
     mutate(
       url = map_chr(url,
@@ -102,11 +102,11 @@ weather_data_input <- function(bee_location,
   # check through the stations for NA values in data
   for (i in 1:nrow(WeatherStations)) {
     weather_data <- dataDWD(WeatherStations$url[i], varnames = TRUE, quiet = TRUE) |>
-      select(MESS_DATUM,
+      dplyr::select(MESS_DATUM,
              SDK.Sonnenscheindauer,
              TXK.Lufttemperatur_Max) |>
       # mutate(MESS_DATUM = as_date(MESS_DATUM)) |>
-      filter(MESS_DATUM >= as.POSIXct(from_date, tz = "GMT"),
+      filter(MESS_DATUM >= as.POSIXct("2016-01-01", tz = "GMT"),
              MESS_DATUM <= as.POSIXct(to_date, tz = "GMT")) 
 
     # breaks when file with no NAs in SDK found
@@ -153,9 +153,7 @@ bee_location <- vect(
 to_date <- locations_output$start_day |>
   as.Date() + locations_output$sim_days
 
-WeatherOutput <- weather_data_input(bee_location,
-                                    from_date = locations_output$start_day,
-                                    to_date = to_date)
+WeatherOutput <- weather_data_input(bee_location, to_date = to_date)
 
 write.table(
   WeatherOutput[2],

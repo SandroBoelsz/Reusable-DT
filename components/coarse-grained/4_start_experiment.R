@@ -1,4 +1,4 @@
-# Three Start beehave experiments
+# Component 3 Start beehave experiments
 # ---
 # NaaVRE:
 #  cell:
@@ -216,15 +216,16 @@ run_simulation <- function(
 
   system_cmd <- paste(
     'java',
-    paste0('-Xmx', memory, 'm -Dfile.encoding=UTF-8'),
+    '-Dfile.encoding=UTF-8',
     '-classpath', shQuote(netlogo_jar_path),
     'org.nlogo.headless.Main',
     '--model', shQuote(model_path),
     '--setup-file', shQuote(xml_path),
     '--experiment Exp1',
     '--table', shQuote(output_path),
-    '--threads', threads
+    '--threads', threads  
   )
+
 
   print(system_cmd)
   system(system_cmd)

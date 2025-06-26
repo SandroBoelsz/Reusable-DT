@@ -1,4 +1,4 @@
-# Two Prepare locations and netlogo input
+# Component 2 Prepare locations and netlogo input
 # ---
 # NaaVRE:
 #  cell:

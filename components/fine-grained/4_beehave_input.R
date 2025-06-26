@@ -1,4 +1,4 @@
-# Three Prepare beehave model input
+# Component 3 Prepare beehave model input
 # ---
 # NaaVRE:
 #  cell:
@@ -67,6 +67,7 @@ library(terra)
 library(sf)
 library(dplyr)
 library(lubridate)
+
 
 if (!dir.exists(locations_output$location_path)) {
   dir.create(locations_output$location_path)
