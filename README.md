@@ -1,7 +1,6 @@
 # Reusable-DT
 
-This repository contains code used for the MSc Thesis: Towards Digital Twin Reusability in
-Virtual Research Environments: A Honeybee-pDT Case Study.
+This repository contains code used for the MSc Thesis: 'Decomposing a Digital Twin Application as Reusable Building Blocks in a Virtual Research Environment.'
 
 The actual code was implemented in the NaaVRE environment. This means that it is not possible to run this code in it's current state outside of the NaaVRE environment. It also means that the code and files here are not the same as the ones used in the NaaVRE environment. The code here is a draft of the components used in the NaaVRE environment. Further details are in the thesis.
 
